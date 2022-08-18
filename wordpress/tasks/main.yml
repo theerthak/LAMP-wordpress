@@ -1,4 +1,0 @@
----
-# tasks file for wordpres
-
- include_task: mysql.ymls
