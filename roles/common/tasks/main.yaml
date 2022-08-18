@@ -1,0 +1,7 @@
+---
+- import_tasks: debian.yaml
+  when: ansible_facts[os_family]=='Debian'
+
+- import_tasks: centos.yaml
+  when: ansible_facts[os_family]=='CentOs'
+    

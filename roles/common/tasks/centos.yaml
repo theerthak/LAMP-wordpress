@@ -1,0 +1,6 @@
+---
+- name: installing common pacakges on centos
+  ansible.builtin.package:
+    name: "{{{ tools }}}"
+    state: present
+    update_cache: yes

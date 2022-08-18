@@ -1,0 +1,8 @@
+---
+- name: install nginx
+  ansible.builtin.package:
+    name: {{" package "}}
+    state: present
+    update_cache: yes
+  notify: Reload nginx
+    

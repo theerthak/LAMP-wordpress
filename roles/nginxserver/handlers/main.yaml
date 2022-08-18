@@ -1,0 +1,15 @@
+---
+- name: Restart nginx
+  ansible.builtin.service:
+    name: {{" package "}}
+    state: restarted
+    
+- name: Reload nginx
+  ansible.builtin.service:
+    name: {{" package "}}
+    state: reloaded
+
+- name: Restart redis
+  ansible.builtin.service:
+    name: redis
+    state: restarted

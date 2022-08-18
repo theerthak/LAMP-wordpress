@@ -1,0 +1,7 @@
+---
+- name: install nginx
+  ansible.builtin.apt:
+    name: "{{ package }}"
+    state: present
+    update_cache: yes
+  notify: reload nginx

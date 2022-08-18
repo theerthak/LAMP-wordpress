@@ -1,0 +1,16 @@
+---
+ - import_tasks: debian.yaml
+   when: ansible_facts['os_family']=='Debain'
+ - import_tasks: centos.yaml
+   when: ansible_facts['os_family']=='CentOs'
+
+ - name: copy the nginx conf
+   ansible.builtin.copy:
+     src: nginx.conf.j2
+     dest: "{{ nginx_conf }}"
+
+ - name: copy the website files
+   ansible.builtin.copy:
+     src: index_html
+     dest: "{{ doc_root_location }}"
+

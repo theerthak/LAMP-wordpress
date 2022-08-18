@@ -1,0 +1,8 @@
+---
+# vars file for wordpress
+http_port: 80
+web_dest: /var/www/html/
+domain: 65.0.85.217
+config_dest: /etc/apache2/sites-available/
+httpd_user: ubuntu
+httpd_group: ubuntu

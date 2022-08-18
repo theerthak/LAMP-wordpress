@@ -1,0 +1,21 @@
+---
+- name: Deploy wordpress
+  hosts: ubuntu
+  become: true
+  vars_prompt:
+  - name: sql_root_password
+    prompt: enter the mysql root password
+    private: yes
+
+  - name: sql_extra_user
+    prompt: enter the db user for wordpress    
+
+  - name: sql_extra_user_password
+    prompt: enter the password for wordpress database
+    private: yes
+
+  - name: sql_extra_database
+    prompt: Enter the database name for your Wordpress 
+
+  roles:
+   - wordpress

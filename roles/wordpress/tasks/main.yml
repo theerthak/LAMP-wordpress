@@ -1,0 +1,7 @@
+---
+- name: myql
+  include_tasks: mysql.yml
+- name: php
+  include_tasks: php.yml  
+- name: apache2
+  include_tasks: apache2.yml

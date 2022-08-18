@@ -1,0 +1,52 @@
+---
+    - name: Install Apache2
+      ansible.builtin.apt:
+        name: apache2
+        state: present
+        update_cache: yes
+      notify: Restart apache2
+
+    - name: Install unzip
+      ansible.builtin.apt:
+        name: unzip
+        state: present
+        update_cache: yes
+
+    - name: copying the config file
+      ansible.builtin.template:
+        src: apache2.conf.j2
+        dest: "{{ config_dest }}/000-default.conf"
+      notify: Restart apache2 
+
+    
+    - name: Delete files
+      file:
+       path: /var/www/html/*
+       state: absent
+
+    - name: Unarchive a file that is already on the remote machine
+      ansible.builtin.unarchive:
+       src: https://wordpress.org/latest.zip
+       dest: "{{web_dest}}"
+       remote_src: yes
+       owner: "{{ httpd_user }}"
+       group: "{{ httpd_group }}"     
+
+    - name: copying website file
+      ansible.builtin.copy:
+        src: "{{ web_dest }}wordpress/"
+        dest: "{{web_dest}}"
+        owner: "{{ httpd_user }}"
+        group: "{{ httpd_group }}"   
+        remote_src: yes
+      notify: Restart apache2   
+
+    - name: copying website file
+      ansible.builtin.template:
+       src: wp-config.php
+       dest: "{{ web_dest }}"
+       owner: "{{ httpd_user }}"
+       group: "{{ httpd_group }}"   
+      notify: Restart apache2
+
+

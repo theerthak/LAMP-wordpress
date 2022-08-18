@@ -1,0 +1,6 @@
+---
+package: nginx
+http_port: 80
+doc_root_location: /var/www/public_html
+default_index: /var/www/html/index_html
+nginx_conf: /etc/nginx/sites-enabled/default

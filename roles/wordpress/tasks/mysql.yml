@@ -1,0 +1,62 @@
+---
+  - name: install python, pip etc
+    ansible.builtin.apt:
+      name: "{{ item }}"
+      state: present
+    with_items:
+        - pip 
+        - python3-mysqldb
+        - default-libmysqlclient-dev 
+        - build-essential
+
+  - name: Install MySQL server
+    ansible.builtin.apt:
+      name: mysql-server 
+      state: present
+      update_cache: yes
+  - name: Install MySQL client
+    ansible.builtin.apt:
+      name: mysql-client
+      state: present
+      update_cache: yes
+
+  - name: "mysql - Restart"
+    service:
+        name: mysql
+        state: restarted
+        enabled: true
+
+  - name: update mysql root password for all root accounts
+    mysql_user:
+      name: root   
+      login_user: "root"
+      login_password: "{{ sql_root_password }}"
+      user: "root"
+      password: "{{ sql_root_password }}"
+      login_unix_socket: /var/run/mysqld/mysqld.sock
+      host: localhost
+      state: present
+
+  - name: Create a new database with
+    community.mysql.mysql_db:
+     name: "{{ sql_extra_database }}"
+     login_user: "root"
+     login_password: "{{ sql_root_password }}"
+     state: present
+
+
+  - name: Assign privillages
+    mysql_user:
+     login_user: ""
+     login_password: "{{ sql_root_password }}"
+     user: "{{sql_extra_user}}"
+     password: "{{ sql_extra_user_password }}"
+     priv: '{{ sql_extra_database }}.*:ALL'
+     state: present
+
+  - name: "Removing Anonymous Users"
+    mysql_user:
+      login_user: "root"
+      login_password: "{{ sql_root_password }}"
+      user: ""
+      state: absent

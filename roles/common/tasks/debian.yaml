@@ -1,0 +1,6 @@
+---
+- name: install apache2
+  ansible.builtin.apt:
+    name: "{{ tools }}"
+    state: present
+    update_cache: yes
